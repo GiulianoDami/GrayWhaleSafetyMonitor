@@ -1,0 +1,37 @@
+{
+    "language": "Go",
+    "dependency_file": "go.mod",
+    "dependencies": ["github.com/gorilla/mux", "github.com/stretchr/testify"],
+    "files": [
+        {
+            "path": "internal/monitor/monitor.go",
+            "description": "Core monitoring logic for whale tracking and collision risk assessment",
+            "exports": ["type WhaleTracker", "func NewWhaleTracker()", "func (wt *WhaleTracker) StartMonitoring() error"]
+        },
+        {
+            "path": "internal/alerts/alerts.go",
+            "description": "Alert generation and dispatching for collision risks",
+            "exports": ["type AlertSystem", "func NewAlertSystem()", "func (as *AlertSystem) SendAlert(alert string) error"]
+        },
+        {
+            "path": "internal/models/models.go",
+            "description": "Data models for whale positions, vessel data, and risk metrics",
+            "exports": ["type WhalePosition", "type Vessel", "type RiskAssessment"]
+        },
+        {
+            "path": "internal/config/config.go",
+            "description": "Configuration management for thresholds and monitoring settings",
+            "exports": ["type Config", "func LoadConfig(path string) (*Config, error)", "func (c *Config) Validate() error"]
+        },
+        {
+            "path": "cmd/graywhalesafety/main.go",
+            "description": "Command-line interface entry point",
+            "imports_from_other_files": ["internal/monitor", "internal/alerts", "internal/config"]
+        },
+        {
+            "path": "pkg/api/api.go",
+            "description": "RESTful API endpoints for external integration",
+            "exports": ["func SetupRoutes(router *mux.Router)", "func HandleStatus(w http.ResponseWriter, r *http.Request)"]
+        }
+    ]
+}
